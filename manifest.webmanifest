@@ -1,0 +1,14 @@
+{
+  "name":"たかくん競馬メモ",
+  "short_name":"競馬メモ",
+  "description":"南関競馬の予想・結果記録と直近4予想R警報チェック",
+  "lang":"ja",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#08121d",
+  "theme_color":"#0b1724",
+  "icons":[
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
