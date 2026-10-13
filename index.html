@@ -2,157 +2,206 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#05080d">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="競馬メモ">
+<meta name="apple-mobile-web-app-title" content="競馬">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon.svg">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
-<title>たかくん競馬メモ</title>
+<title>競馬メモ</title>
 <style>
-:root{--bg:#05080d;--panel:#0d1722;--line:#263b4f;--tx:#f1f3f5;--muted:#8fa3b4;--mint:#8ee2c3;--red:#ff939d;--amber:#f2c36b}
-*{box-sizing:border-box}html,body{margin:0;background:#05080d;color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif}
-body{padding-bottom:92px}button,input,select,textarea{font:inherit}
-.wrap{max-width:820px;margin:auto;padding:12px 12px 32px}
-header{padding:4px 4px 10px}h1{font-size:23px;margin:4px 0}header p{color:var(--muted);font-size:11px;margin:0}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px;margin-bottom:10px}
-.daybar{display:grid;grid-template-columns:1.3fr 1fr .7fr;gap:7px}
-label{display:block;font-size:10px;color:var(--muted);font-weight:800;margin-bottom:4px}
-input,select{width:100%;background:#132231;color:var(--tx);border:1px solid #365068;border-radius:10px;padding:9px 10px;font-size:16px}
-.actions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}.btn{border:1px solid #39536a;background:#132435;color:#f4f7fa;border-radius:10px;padding:10px 12px;font-weight:800}.btn.primary{background:var(--mint);border-color:var(--mint);color:#0b2b24}.btn.danger{background:#3a2028;border-color:#633943;color:#ffc8cd}
-.alarm{border-width:2px}.alarm.green{border-color:#347b69}.alarm.yellow{border-color:#8b6d32}.alarm.orange{border-color:#a85b38}.alarm.red{border-color:#ae4552}
-.alarm h2{font-size:17px;margin:0 0 7px}.badge{display:inline-block;border-radius:999px;background:#233747;padding:4px 9px;font-size:11px;font-weight:900;margin-bottom:8px}
-.siggrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.sig{background:#09131e;border:1px solid #263d50;border-radius:9px;padding:7px}.sig b{display:flex;justify-content:space-between;font-size:10px}.sig small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.on{color:var(--red)}.off{color:var(--mint)}
-.refs{font-size:10px;color:#b8c7d2;line-height:1.55;margin-top:8px}
-.editorcard{padding:0;overflow:hidden;background:#000;border-color:#1d2b39}
-.editorhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#0b1420;border-bottom:1px solid #1d2b39}.editorhead b{font-size:14px}.editorhead small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
-#memo{display:block;width:100%;min-height:68vh;resize:vertical;background:#000;color:#e9e9ec;border:0;outline:0;padding:22px 18px 80px;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-size:20px;line-height:1.62;letter-spacing:.005em;caret-color:#5caeff}
-.help{color:var(--muted);font-size:10px;line-height:1.6;padding:9px 12px;background:#08111a;border-top:1px solid #1d2b39}
-.sticky{position:fixed;left:0;right:0;bottom:0;background:#08121def;border-top:1px solid #294055;padding:8px 10px calc(8px + env(safe-area-inset-bottom));backdrop-filter:blur(14px);z-index:10}.stickin{max-width:820px;margin:auto;display:flex;gap:7px}.stickin .btn{flex:1;font-size:13px;padding:11px 7px}
-.toast{display:none;position:fixed;z-index:20;left:50%;bottom:88px;transform:translateX(-50%);background:#c7f7e5;color:#0a3529;font-weight:900;font-size:12px;padding:8px 12px;border-radius:9px;white-space:nowrap}
-@media(max-width:600px){.daybar{grid-template-columns:1fr 1fr}.daybar>div:first-child{grid-column:1/-1}.wrap{padding:10px 8px 28px}#memo{font-size:19px;padding:20px 15px 90px;min-height:72vh}.siggrid{grid-template-columns:1fr 1fr}.actions .btn{font-size:12px;padding:9px 9px}}
+:root{--bg:#000;--card:#1c1c1e;--card2:#242426;--line:#3a3a3c;--text:#f5f5f7;--sub:#8e8e93;--accent:#ffd60a;--mint:#8ee2c3;--red:#ff6b78;--blue:#5aa7ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Sans","Yu Gothic",sans-serif}button,input,textarea{font:inherit}button{color:inherit}
+.app{min-height:100dvh;background:#000}.hidden{display:none!important}
+
+/* List */
+.listView{min-height:100dvh;padding:calc(14px + env(safe-area-inset-top)) 18px calc(100px + env(safe-area-inset-bottom))}
+.listTop{text-align:center;margin-bottom:28px}.folderName{font-size:17px;font-weight:700}.count{color:var(--sub);font-size:14px;margin-top:2px}
+.group{margin:0 0 27px}.groupTitle{font-size:27px;font-weight:800;margin:0 0 14px 2px;letter-spacing:-.02em}
+.groupCard{background:var(--card);border-radius:22px;overflow:hidden}
+.noteRow{padding:14px 18px 13px;min-height:84px;position:relative}.noteRow+.noteRow:before{content:"";position:absolute;left:18px;right:18px;top:0;height:.5px;background:#3b3b3d}
+.noteTitle{font-size:18px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.notePreview{font-size:15px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.emptyList{color:var(--sub);text-align:center;padding:90px 20px 40px}
+.listBottom{position:fixed;z-index:20;left:0;right:0;bottom:0;padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#000 30%);display:flex;gap:12px;align-items:center}
+.searchWrap{flex:1;display:flex;align-items:center;background:#1c1c1e;border:1px solid #343436;border-radius:28px;height:55px;padding:0 17px;gap:10px}.searchIcon{font-size:24px;color:#f4f4f5}.search{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:17px}.search::placeholder{color:#8e8e93}
+.compose{width:55px;height:55px;border-radius:50%;border:1px solid #343436;background:#1c1c1e;font-size:27px;display:grid;place-items:center}
+
+/* Editor */
+.editorView{min-height:100dvh;padding-top:env(safe-area-inset-top);background:#000}
+.editorTop{height:70px;display:grid;grid-template-columns:70px 1fr 130px;align-items:center;padding:0 12px;position:sticky;top:0;z-index:15;background:#000e;backdrop-filter:blur(18px)}
+.iconBtn{border:1px solid #29292b;background:#171719;border-radius:28px;height:50px;min-width:50px;padding:0 14px;font-size:25px;display:grid;place-items:center}.back{width:54px}.topRight{display:flex;justify-content:flex-end;gap:8px}.dots{font-size:28px;line-height:1}
+.editMeta{text-align:center;color:var(--sub);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.editorWrap{max-width:900px;margin:0 auto;padding:18px 28px 120px}.editorStamp{text-align:center;color:#77777d;font-size:14px;margin:2px 0 22px}
+#editor{display:block;width:100%;min-height:72dvh;background:#000;border:0;outline:0;resize:none;color:#e9e9eb;font-size:20px;line-height:1.62;padding:0;caret-color:var(--blue);white-space:pre-wrap;overflow-wrap:anywhere}
+#editor::placeholder{color:#4e4e52}
+.editorBottom{position:fixed;z-index:18;left:0;right:0;bottom:0;padding:9px 24px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#000 28%);display:flex;justify-content:space-between;align-items:flex-end}
+.toolset{display:flex;background:#19191b;border:1px solid #333336;border-radius:30px;padding:3px}.tool{width:48px;height:48px;border:0;background:transparent;border-radius:24px;font-size:21px}.tool.alarmTool{color:var(--mint);font-size:22px}.compose.small{width:52px;height:52px}
+
+/* Sheets */
+.scrim{position:fixed;inset:0;background:#0008;z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:min(720px,100%);background:#171719;border-radius:22px 22px 0 0;padding:12px 14px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -10px 45px #0008}
+.handle{width:40px;height:5px;border-radius:5px;background:#55555a;margin:2px auto 14px}.sheetTitle{text-align:center;font-weight:800;font-size:17px;margin-bottom:10px}
+.sheetBtn{width:100%;border:0;background:#242426;border-radius:14px;padding:15px 16px;text-align:left;font-size:17px;margin:6px 0}.sheetBtn.danger{color:#ff676f}.sheetBtn.center{text-align:center}
+.alarmCard{background:#0e1720;border:1px solid #2a3d50;border-radius:16px;padding:12px;margin-bottom:10px}.alarmCard.red{border-color:#a74752}.alarmCard.orange{border-color:#a96638}.alarmCard.yellow{border-color:#8e7137}.alarmCard.green{border-color:#3d7e6c}
+.alarmHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.alarmHead b{font-size:18px}.badge{font-size:11px;font-weight:900;background:#2a3037;border-radius:999px;padding:5px 9px}
+.siggrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sig{background:#101820;border:1px solid #263949;border-radius:11px;padding:8px}.sig b{font-size:11px;display:flex;justify-content:space-between}.sig small{display:block;color:#9aabb8;font-size:9px;margin-top:3px}.on{color:#ff8e98}.off{color:#8ee2c3}.refs{font-size:10px;color:#adb9c3;line-height:1.55;margin-top:9px}
+
+.toast{display:none;position:fixed;z-index:80;left:50%;bottom:95px;transform:translateX(-50%);background:#e8e8ea;color:#111;border-radius:12px;padding:9px 13px;font-size:12px;font-weight:800;white-space:nowrap}
+@media(max-width:600px){.editorWrap{padding:14px 28px 120px}.editorTop{grid-template-columns:60px 1fr 120px}.groupTitle{font-size:25px}.noteTitle{font-size:17px}#editor{font-size:19px}.listView{padding-left:34px;padding-right:34px}.listBottom{padding-left:34px;padding-right:34px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header><div style="font-size:9px;color:#8ee2c3;font-weight:900;letter-spacing:.14em">TAKA KEIBA NOTE</div><h1>競馬メモ 🐴</h1><p>見た目も書き方もiPhoneメモ寄り。文章の位置関係から自動で読み取ります。</p></header>
-<section class="card daybar">
-<div><label>開催日</label><input id="date" type="date"></div>
-<div><label>競馬場</label><select id="venue"><option>浦和</option><option>船橋</option><option>大井</option><option>川崎</option></select></div>
-<div><label>第何日</label><select id="dayNum"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+<div class="app">
+<section id="listView" class="listView">
+  <div class="listTop"><div class="folderName">競馬</div><div id="count" class="count"></div></div>
+  <div id="groups"></div>
+  <div id="emptyList" class="emptyList hidden">メモはまだありません</div>
+  <div class="listBottom">
+    <div class="searchWrap"><span class="searchIcon">⌕</span><input id="search" class="search" placeholder="検索"></div>
+    <button id="newNoteList" class="compose" aria-label="新規メモ">✎</button>
+  </div>
 </section>
-<div class="actions"><button class="btn" id="prev">前の日</button><button class="btn primary" id="newDay">新しい日</button><button class="btn" id="next">次の日</button><button class="btn danger" id="deleteDay">この日を削除</button></div>
-<section id="alarm" class="card alarm"></section>
-<section class="card editorcard">
-<div class="editorhead"><div><b>いつものメモ</b><small>1R〜12Rを1枚にそのまま記録</small></div><button class="btn primary" id="copyTop">全文コピー</button></div>
-<textarea id="memo" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
-<div class="help">【○R】〜次の【○R】までを1レースとして認識。印は「8,2,7,1,12(3,1,5,2,4)」、結果は「結果1-12-2(2,4,1)」の今までの形でOK。見送りで印が空欄のRは直近4予想Rから自動除外。</div>
+
+<section id="editorView" class="editorView hidden">
+  <div class="editorTop">
+    <button id="back" class="iconBtn back" aria-label="戻る">‹</button>
+    <div id="editMeta" class="editMeta"></div>
+    <div class="topRight">
+      <button id="share" class="iconBtn" aria-label="共有">⇧</button>
+      <button id="more" class="iconBtn dots" aria-label="その他">•••</button>
+    </div>
+  </div>
+  <div class="editorWrap">
+    <div id="editorStamp" class="editorStamp"></div>
+    <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder=""></textarea>
+  </div>
+  <div class="editorBottom">
+    <div class="toolset">
+      <button class="tool" aria-label="チェックリスト">◉</button>
+      <button class="tool" aria-label="添付">⌕</button>
+      <button id="alarmBtn" class="tool alarmTool" aria-label="警報チェック">⚠︎</button>
+      <button class="tool" aria-label="マークアップ">⌁</button>
+    </div>
+    <button id="newNoteEdit" class="compose small" aria-label="新規メモ">✎</button>
+  </div>
 </section>
 </div>
-<div class="sticky"><div class="stickin"><button class="btn primary" id="check">警報チェック</button><button class="btn" id="jump">次のRへ</button><button class="btn" id="copy">メモをコピー</button></div></div>
-<div class="toast" id="toast"></div>
+
+<div id="scrim" class="scrim hidden"></div>
+<div id="toast" class="toast"></div>
+
 <script>
 (function(){
-const KEY='taka-keiba-note-v2', LEGACY='taka-keiba-memo-pwa-v1';
+const KEY='taka-keiba-notes-v3', PREV='taka-keiba-note-v2', OLD='taka-keiba-memo-pwa-v1';
 const $=id=>document.getElementById(id);
-function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function header(date,venue,dayNum){let p=date.split('-').map(Number);return p[0]+'/'+p[1]+'/'+p[2]+venue+'第'+dayNum+'日'}
-function skeleton(date,venue,dayNum){let s=header(date,venue,dayNum)+'\n\n\n';for(let i=1;i<=12;i++){s+='【'+i+'R】\n\n\n\n\n結果\n払戻金円\n\n'}return s.trimEnd()+'\n'}
-function blankDay(date,venue,dayNum){return{id:'d'+Date.now()+Math.random().toString(16).slice(2),date,venue,dayNum,text:skeleton(date,venue,dayNum)}}
-function migrateLegacy(){
+const now=()=>Date.now();
+const isoDay=t=>{let d=new Date(t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function fresh(){return{activeId:null,notes:[]}}
+function migrate(){
  try{
-  let old=JSON.parse(localStorage.getItem(LEGACY)||'null'); if(!old||!old.days?.length)return null;
-  let days=old.days.map(d=>{
-    let t=header(d.date,d.venue,d.dayNum)+'\n\n\n';
-    (d.races||[]).forEach(r=>{
-      t+='【'+r.n+'R】'+(r.meta||'')+'\n\n'+(r.picks||'')+'\n\n'+(r.ticket||'')+'\n'+(r.bet||'')+((r.ticket||r.bet)?'\n':'')+(r.amount||'')+'\n\n結果'+(r.result||'')+'\n払戻金'+(r.refund||'0')+'円\n\n';
-    });
-    return{id:d.id,date:d.date,venue:d.venue,dayNum:d.dayNum,text:t.trimEnd()+'\n'};
-  });
-  return{activeId:old.activeId,days};
- }catch(e){return null}
+  let p=JSON.parse(localStorage.getItem(PREV)||'null');
+  if(p?.days?.length){
+    let base=now(),notes=p.days.map((d,i)=>({id:'n'+d.id,text:d.text||'',createdAt:base-(p.days.length-i)*60000,updatedAt:base-(p.days.length-i)*60000}));
+    return{activeId:null,notes};
+  }
+ }catch(e){}
+ try{
+  let p=JSON.parse(localStorage.getItem(OLD)||'null');
+  if(p?.days?.length){
+    let base=now(),notes=p.days.map((d,i)=>{
+      let head=(d.date||'').replaceAll('-','/')+(d.venue||'')+'第'+(d.dayNum||1)+'日',t=head+'\n\n\n';
+      (d.races||[]).forEach(r=>{t+='【'+r.n+'R】'+(r.meta||'')+'\n\n'+(r.picks||'')+'\n\n'+(r.ticket||'')+'\n'+(r.bet||'')+((r.ticket||r.bet)?'\n':'')+(r.amount||'')+'\n\n結果'+(r.result||'')+'\n払戻金'+(r.refund||'0')+'円\n\n'});
+      return{id:'n'+d.id,text:t.trimEnd(),createdAt:base-(p.days.length-i)*60000,updatedAt:base-(p.days.length-i)*60000};
+    }); return{activeId:null,notes};
+  }
+ }catch(e){}
+ return null;
 }
-function fresh(){let d=blankDay(iso(new Date()),'浦和',1);return{activeId:d.id,days:[d]}}
-let data;try{data=JSON.parse(localStorage.getItem(KEY)||'null')||migrateLegacy()||fresh()}catch(e){data=fresh()}
+let data;try{data=JSON.parse(localStorage.getItem(KEY)||'null')||migrate()||fresh()}catch(e){data=fresh()}
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function active(){return data.days.find(d=>d.id===data.activeId)||data.days[0]}
-function ordered(){return data.days.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.dayNum-b.dayNum)}
+function note(id){return data.notes.find(n=>n.id===id)}
+function titleOf(n){let lines=String(n.text||'').split(/\n/).map(x=>x.trim()).filter(Boolean);return lines[0]||'新規メモ'}
+function previewOf(n){let lines=String(n.text||'').split(/\n/).map(x=>x.trim()).filter(Boolean);return lines.slice(1,3).join('　')||'追加テキストなし'}
+function fmtTime(t){let d=new Date(t),today=isoDay(now()),day=isoDay(t);if(day===today)return d.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});return d.toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}
+function ageGroup(t){let diff=Math.floor((new Date(isoDay(now()))-new Date(isoDay(t)+'T00:00:00'))/86400000);if(diff<=0)return'今日';if(diff<=7)return'過去7日間';if(diff<=30)return'過去30日間';return'以前'}
+function filtered(){let q=$('search').value.trim().toLowerCase();return data.notes.filter(n=>!q||n.text.toLowerCase().includes(q)).sort((a,b)=>b.updatedAt-a.updatedAt)}
+function renderList(){
+ $('listView').classList.remove('hidden');$('editorView').classList.add('hidden');data.activeId=null;save();
+ let arr=filtered(),order=['今日','過去7日間','過去30日間','以前'];$('count').textContent=data.notes.length+'件のメモ';
+ $('groups').innerHTML=order.map(g=>{let ns=arr.filter(n=>ageGroup(n.updatedAt)===g);if(!ns.length)return'';return'<section class="group"><h2 class="groupTitle">'+g+'</h2><div class="groupCard">'+ns.map(n=>'<div class="noteRow" data-id="'+n.id+'"><div class="noteTitle">'+esc(titleOf(n))+'</div><div class="notePreview">'+esc(fmtTime(n.updatedAt)+'　'+previewOf(n))+'</div></div>').join('')+'</div></section>'}).join('');
+ $('emptyList').classList.toggle('hidden',arr.length>0);
+ document.querySelectorAll('.noteRow').forEach(r=>r.onclick=()=>openNote(r.dataset.id));
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function openNote(id){
+ let n=note(id);if(!n)return;data.activeId=id;save();$('listView').classList.add('hidden');$('editorView').classList.remove('hidden');$('editor').value=n.text;$('editorStamp').textContent=new Date(n.updatedAt).toLocaleString('ja-JP',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});$('editMeta').textContent='';setTimeout(()=>{$('editor').focus();$('editor').setSelectionRange($('editor').value.length,$('editor').value.length)},50)
+}
+function newNote(){let n={id:'n'+now()+Math.random().toString(16).slice(2),text:'',createdAt:now(),updatedAt:now()};data.notes.unshift(n);save();openNote(n.id)}
+let timer;
+$('editor').addEventListener('input',e=>{let n=note(data.activeId);if(!n)return;n.text=e.target.value;n.updatedAt=now();$('editorStamp').textContent=new Date(n.updatedAt).toLocaleString('ja-JP',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});clearTimeout(timer);timer=setTimeout(save,120)});
+$('back').onclick=()=>{save();renderList()};
+$('newNoteList').onclick=newNote;$('newNoteEdit').onclick=newNote;$('search').addEventListener('input',renderList);
+
+/* share + menus */
+async function copyText(){let n=note(data.activeId);if(!n)return;try{await navigator.clipboard.writeText(n.text);toast('メモをコピーしました')}catch(e){toast('コピーできませんでした')}}
+$('share').onclick=async()=>{let n=note(data.activeId);if(!n)return;if(navigator.share){try{await navigator.share({title:titleOf(n),text:n.text})}catch(e){}}else copyText()};
+$('more').onclick=()=>showMenu();
+function showMenu(){
+ showSheet('<div class="sheetTitle">'+esc(titleOf(note(data.activeId)))+'</div>'+
+ '<button class="sheetBtn" id="mAlarm">⚠︎　警報チェック</button>'+
+ '<button class="sheetBtn" id="mCopy">メモをコピー</button>'+
+ '<button class="sheetBtn danger" id="mDelete">削除</button>'+
+ '<button class="sheetBtn center" id="mCancel">キャンセル</button>');
+ $('mAlarm').onclick=()=>{hideSheet();checkAlarm()};$('mCopy').onclick=()=>{hideSheet();copyText()};$('mDelete').onclick=()=>{hideSheet();deleteActive()};$('mCancel').onclick=hideSheet;
+}
+function deleteActive(){let n=note(data.activeId);if(!n)return;if(confirm('このメモを削除しますか？')){data.notes=data.notes.filter(x=>x.id!==n.id);data.activeId=null;save();renderList()}}
+function showSheet(html){$('scrim').innerHTML='<div class="sheet"><div class="handle"></div>'+html+'</div>';$('scrim').classList.remove('hidden');$('scrim').onclick=e=>{if(e.target===$('scrim'))hideSheet()}}
+function hideSheet(){$('scrim').classList.add('hidden');$('scrim').innerHTML=''}
+
+/* race parser */
 function nums(s){return String(s||'').match(/\d+/g)?.map(Number)||[]}
-function parseResultLine(line){
- let z=line.replace(/^結果\s*/,'').trim(),m=z.match(/^([0-9]+)\s*[-－ー]\s*([0-9]+)\s*[-－ー]\s*([0-9]+)\s*(?:\(([^)]*)\))?/);
- if(!m)return{top:[],pop:[]};
- return{top:[+m[1],+m[2],+m[3]],pop:m[4]?nums(m[4]).slice(0,3):[]}
+function parseHeader(text){
+ let first=String(text||'').split(/\n/).map(x=>x.trim()).find(Boolean)||'';
+ let m=first.match(/(\d{4})\s*\/\s*(\d{1,2})\s*\/\s*(\d{1,2})\s*(浦和|船橋|大井|川崎)\s*第?\s*(\d+)\s*日/);
+ return m?{date:m[1]+'-'+String(+m[2]).padStart(2,'0')+'-'+String(+m[3]).padStart(2,'0'),venue:m[4],dayNum:+m[5]}:null
 }
-function looksPicks(line){
- let s=line.replace(/\s+/g,'');
- if(/^[0-9]+(?:,[0-9]+)+(?:\([^)]*\))?$/.test(s))return true;
- if(/^[0-9]+(?:,[0-9]+)*\([^)]*\)$/.test(s))return true;
- return false
+function looksPicks(line){let s=line.replace(/\s+/g,'');return /^[0-9]+(?:,[0-9]+)+(?:\([^)]*\))?$/.test(s)||/^[0-9]+(?:,[0-9]+)*\([^)]*\)$/.test(s)}
+function parseResult(line){let z=String(line||'').replace(/^結果\s*/,'').trim(),m=z.match(/^([0-9]+)\s*[-－ー]\s*([0-9]+)\s*[-－ー]\s*([0-9]+)\s*(?:\(([^)]*)\))?/);return m?{top:[+m[1],+m[2],+m[3]],pop:m[4]?nums(m[4]).slice(0,3):[]}:{top:[],pop:[]}}
+function parseNote(n){
+ let h=parseHeader(n.text);if(!h)return[];let out=[],re=/【\s*(\d+)R\s*】([^\n]*)([\s\S]*?)(?=【\s*\d+R\s*】|$)/g,m;
+ while((m=re.exec(n.text))){
+  let rno=+m[1],raw=(m[3]||'').split(/\n/).map(x=>x.trim()).filter(Boolean),resultLine=raw.find(x=>/^結果/.test(x))||'',res=parseResult(resultLine),pre=raw.filter(x=>x!==resultLine&&!/^払戻金/.test(x)),pickLine=pre.find(looksPicks)||'',picks=nums((pickLine.split('(')[0]||'')),eligible=picks.length>0&&res.top.length===3;
+  out.push({note:n,header:h,rno,eligible,firstIn:eligible&&res.top.includes(picks[0]),captured:eligible&&res.top.every(x=>picks.includes(x)),big:eligible&&res.pop.some(x=>x>=8),mid:eligible&&res.pop.some(x=>x>=6)})
+ }return out
 }
-function picksFrom(line){let left=String(line||'').split('(')[0];return nums(left)}
-function parseDay(day){
- let txt=day.text||'',out=[],re=/【\s*(\d+)R\s*】([^\n]*)([\s\S]*?)(?=【\s*\d+R\s*】|$)/g,m;
- while((m=re.exec(txt))){
-  let rno=+m[1],meta=(m[2]||'').trim(),block=m[3]||'',raw=block.split(/\n/).map(x=>x.trim()).filter(Boolean);
-  let resultLine=raw.find(x=>/^結果/.test(x))||'',refundLine=raw.find(x=>/^払戻金/.test(x))||'';
-  let result=parseResultLine(resultLine),pre=raw.filter(x=>x!==resultLine&&x!==refundLine);
-  let pickLine=pre.find(looksPicks)||'',picks=picksFrom(pickLine);
-  let popInPicks=[];let pm=pickLine.match(/\(([^)]*)\)/);if(pm)popInPicks=nums(pm[1]);
-  let refund=nums(refundLine)[0]||0;
-  let eligible=picks.length>0&&result.top.length===3;
-  out.push({day,rno,meta,pickLine,picks,popInPicks,result,refund,eligible,
-   firstIn:eligible&&result.top.includes(picks[0]),
-   captured:eligible&&result.top.every(h=>picks.includes(h)),
-   big:eligible&&result.pop.some(p=>p>=8),
-   mid:eligible&&result.pop.some(p=>p>=6)
-  })
- }
- return out
+function timeline(){
+ let all=[];data.notes.forEach(n=>parseNote(n).forEach(r=>{if(r.eligible)all.push(r)}));
+ return all.sort((a,b)=>a.header.date.localeCompare(b.header.date)||a.header.dayNum-b.header.dayNum||a.rno-b.rno)
 }
-function timeline(){let out=[];ordered().forEach(d=>parseDay(d).forEach(r=>{if(r.eligible)out.push(r)}));return out}
-function signals(){
- let rows=timeline().slice(-4),s={ready:rows.length===4,rows,first:0,capture:0,big:0,mid:0,a:false,b:false,c:false,m:false};
- rows.forEach(x=>{if(x.firstIn)s.first++;if(x.captured)s.capture++;if(x.big)s.big++;if(x.mid)s.mid++});
- if(s.ready){s.a=s.first<=1;s.b=s.capture===0;s.c=s.big>=2;s.m=s.mid>=3} return s
-}
-function severity(s){
- if(!s.ready)return{c:'',t:'判定待ち',n:'直近4予想Rの結果がそろうと判定します。'};
- if(s.b&&s.c)return{c:'red',t:'見送り推奨',n:'②＋③同時ON。過去分析で最も警戒した組み合わせ。'};
- let n=[s.a,s.b,s.c].filter(Boolean).length;
- if(n>=2)return{c:'orange',t:'強め注意',n:'警報2項目以上ON。基本は見送り寄り。'};
- if(s.b||s.c||s.m)return{c:'yellow',t:'注意',n:'単独警報。相手候補が閉じるかを再確認。'};
- return{c:'green',t:'通常',n:'直近4予想Rでは強い警報なし。'}
-}
+function signals(){let rows=timeline().slice(-4),s={ready:rows.length===4,rows,first:0,capture:0,big:0,mid:0,a:false,b:false,c:false,m:false};rows.forEach(x=>{if(x.firstIn)s.first++;if(x.captured)s.capture++;if(x.big)s.big++;if(x.mid)s.mid++});if(s.ready){s.a=s.first<=1;s.b=s.capture===0;s.c=s.big>=2;s.m=s.mid>=3}return s}
+function severity(s){if(!s.ready)return{c:'',t:'判定待ち',n:'結果まで入力済みの予想Rが4つそろうと判定します。'};if(s.b&&s.c)return{c:'red',t:'見送り推奨',n:'②＋③同時ON。最優先で警戒。'};let k=[s.a,s.b,s.c].filter(Boolean).length;if(k>=2)return{c:'orange',t:'強め注意',n:'警報2項目以上ON。基本は見送り寄り。'};if(s.b||s.c||s.m)return{c:'yellow',t:'注意',n:'単独警報。相手が閉じるか再確認。'};return{c:'green',t:'通常',n:'直近4予想Rでは強い警報なし。'}}
 function sig(name,on,txt){let st=on===null?'—':on?'ON':'OFF';return'<div class="sig"><b>'+name+'<span class="'+(on?'on':'off')+'">'+st+'</span></b><small>'+txt+'</small></div>'}
-function renderAlarm(){
- let s=signals(),v=severity(s);$('alarm').className='card alarm '+v.c;
- $('alarm').innerHTML='<h2>現在の警報</h2><span class="badge">'+v.t+'</span><div class="siggrid">'+
+function checkAlarm(){
+ let s=signals(),v=severity(s),refs=s.rows.map(x=>x.header.date.replaceAll('-','/')+' '+x.header.venue+x.rno+'R').join(' / ')||'まだありません';
+ showSheet('<div class="sheetTitle">直近4予想R 警報チェック</div><div class="alarmCard '+v.c+'"><div class="alarmHead"><b>'+v.t+'</b><span class="badge">最新4R</span></div><div class="siggrid">'+
  sig('① 印1不振',s.ready?s.a:null,s.ready?s.first+'/4 馬券内（ON:1以下）':'4R未満')+
  sig('② 完全捕捉なし',s.ready?s.b:null,s.ready?s.capture+'/4 完全捕捉（ON:0）':'4R未満')+
  sig('③ 大穴侵入',s.ready?s.c:null,s.ready?s.big+'/4 で8人気以下（ON:2以上）':'4R未満')+
  sig('中穴注意',s.ready?s.m:null,s.ready?s.mid+'/4 で6人気以下（ON:3以上）':'4R未満')+
- '</div><div class="refs"><b>'+v.n+'</b><br>参照：'+(s.rows.length?s.rows.map(x=>x.day.date+' '+x.day.venue+x.rno+'R').join(' / '):'まだありません')+'<br>①は参考寄り。②＋③同時ONを最優先します。</div>'
+ '</div><div class="refs"><b>'+v.n+'</b><br>参照：'+refs+'<br>印なし見送りRは除外。①は参考寄り、②＋③同時ONを最優先。</div></div><button class="sheetBtn center" id="closeAlarm">閉じる</button>');
+ $('closeAlarm').onclick=hideSheet;
 }
-function syncHeader(){
- let d=active(),lines=(d.text||'').split('\n');if(lines.length){lines[0]=header(d.date,d.venue,d.dayNum);d.text=lines.join('\n')}
-}
-function render(){let d=active();$('date').value=d.date;$('venue').value=d.venue;$('dayNum').value=d.dayNum;$('memo').value=d.text;renderAlarm()}
-function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',1500)}
-let timer;
-$('memo').addEventListener('input',e=>{active().text=e.target.value;clearTimeout(timer);timer=setTimeout(()=>{save()},180)});
-['date','venue','dayNum'].forEach(id=>{$(id).addEventListener('change',function(){let d=active();d.date=$('date').value;d.venue=$('venue').value;d.dayNum=+$('dayNum').value;syncHeader();save();render()})});
-$('newDay').onclick=()=>{let cur=active(),dt=new Date(cur.date+'T12:00:00');dt.setDate(dt.getDate()+1);let d=blankDay(iso(dt),cur.venue,Math.min(cur.dayNum+1,6));data.days.push(d);data.activeId=d.id;save();render();scrollTo(0,0)};
-function go(step){let a=ordered(),i=a.findIndex(d=>d.id===data.activeId),n=a[i+step];if(!n)return toast('その日はまだないよ');data.activeId=n.id;save();render();scrollTo(0,0)}
-$('prev').onclick=()=>go(-1);$('next').onclick=()=>go(1);
-$('deleteDay').onclick=()=>{if(data.days.length===1)return toast('最後の1日は削除できないよ');if(confirm('この開催日のメモを削除する？')){data.days=data.days.filter(d=>d.id!==data.activeId);data.activeId=ordered().at(-1).id;save();render()}};
-$('check').onclick=()=>{active().text=$('memo').value;save();renderAlarm();$('alarm').scrollIntoView({behavior:'smooth',block:'center'});toast('直近4予想Rを読み取ったよ')};
-async function copyMemo(){let t=$('memo').value;try{await navigator.clipboard.writeText(t);toast('メモをコピーしたよ')}catch(e){$('memo').select();document.execCommand('copy');toast('メモをコピーしたよ')}}
-$('copy').onclick=copyMemo;$('copyTop').onclick=copyMemo;
-$('jump').onclick=()=>{let ta=$('memo'),text=ta.value,pos=ta.selectionStart||0,re=/【\s*(\d+)R\s*】/g,m,target=null;while((m=re.exec(text))){if(m.index>pos){target=m.index;break}}if(target===null){m=[...text.matchAll(/【\s*(\d+)R\s*】/g)].find(x=>{let block=text.slice(x.index,(text.slice(x.index+1).search(/【\s*\d+R\s*】/)+(x.index+1))||text.length);return !/^結果.+/m.test(block)});target=m?m.index:text.length}ta.focus();ta.setSelectionRange(target,target);ta.scrollTop=Math.max(0,ta.scrollTop+(target/text.length)*ta.scrollHeight-ta.clientHeight*.25)};
-save();render();
+$('alarmBtn').onclick=checkAlarm;
+
+/* decorative tool buttons */
+document.querySelectorAll('.tool:not(#alarmBtn)').forEach(b=>b.onclick=()=>toast('ここは見た目だけiPhoneメモ風にしてあるよ'));
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',1400)}
+
+save();renderList();
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
-</body></html>
+</body>
+</html>
